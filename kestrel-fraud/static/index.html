@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kestrel Home — Warranty Claim Review</title>
+  <style>
+    :root {
+      --bg: #0B0F17;
+      --card-bg: rgba(22, 30, 46, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --primary: #3B82F6;
+      --primary-hover: #2563EB;
+      --text-main: #F1F5F9;
+      --text-muted: #94A3B8;
+      --accent-red: #EF4444;
+      --accent-red-bg: rgba(239, 68, 68, 0.12);
+      --accent-amber: #F59E0B;
+      --accent-amber-bg: rgba(245, 158, 11, 0.12);
+      --accent-emerald: #10B981;
+      --accent-emerald-bg: rgba(16, 185, 129, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.06) 0%, transparent 40%);
+    }
+
+    header {
+      padding: 1.5rem 2.5rem;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(12px);
+      background: rgba(11, 15, 23, 0.8);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-badge {
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
+      color: white;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 8px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+    }
+
+    .brand-text h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-text p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .header-tag {
+      font-size: 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      color: #38BDF8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: #10B981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10B981;
+    }
+
+    main {
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+    }
+
+    .demo-bar {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .btn-preset {
+      flex: 1;
+      padding: 0.65rem 0.85rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      color: var(--text-main);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .btn-preset span:last-child {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .btn-preset:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .btn-preset.danger:hover {
+      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(239, 68, 68, 0.08);
+    }
+
+    .btn-preset.success:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group.full {
+      grid-column: span 2;
+    }
+
+    label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #CBD5E1;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input, select {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 0.65rem 0.85rem;
+      color: white;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+    }
+
+    .btn-submit {
+      width: 100%;
+      margin-top: 1.5rem;
+      padding: 0.85rem;
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(135deg, #3B82F6, #2563EB);
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .result-placeholder {
+      height: 100%;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--text-muted);
+      gap: 1rem;
+      border: 1px dashed rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+
+    .badge-band {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.4rem 1rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+    }
+
+    .badge-band.REVIEW {
+      background: var(--accent-red-bg);
+      color: #F87171;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
+    .badge-band.WATCH {
+      background: var(--accent-amber-bg);
+      color: #FBBF24;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .badge-band.PAY {
+      background: var(--accent-emerald-bg);
+      color: #34D399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .score-display {
+      margin: 1.5rem 0;
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .score-number {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -1px;
+    }
+
+    .score-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .action-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .action-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .action-text {
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .reasons-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .reason-item {
+      padding: 0.75rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      line-height: 1.4;
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+    }
+
+    .reason-item.raising {
+      background: rgba(239, 68, 68, 0.08);
+      border-left: 3px solid #EF4444;
+      color: #FCA5A5;
+    }
+
+    .reason-item.lowering {
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 3px solid #10B981;
+      color: #A7F3D0;
+    }
+
+    .benchmark-bar {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.75rem;
+      color: #64748B;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo-badge">KH</div>
+      <div class="brand-text">
+        <h1>Kestrel Claim Review</h1>
+        <p>Operations Risk & Investigation Decision Support</p>
+      </div>
+    </div>
+    <div class="header-tag">
+      <span class="status-dot"></span>
+      <span>Model Service Online (Port 8000)</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="card">
+      <div class="card-title">
+        <span>Claim Details</span>
+      </div>
+      <div class="card-subtitle">
+        Enter single warranty claim attributes to score fraud risk and view decision guidance.
+      </div>
+
+      <div class="demo-bar">
+        <button class="btn-preset danger" onclick="loadDemo1()">
+          <span>Demo 1 (High Risk)</span>
+          <span>SP3160 / Air Fryer / Rs 1,450 (No Insp)</span>
+        </button>
+        <button class="btn-preset success" onclick="loadDemo2()">
+          <span>Demo 2 (Low Risk)</span>
+          <span>SP3033 / Water Purifier / Rs 6,500 (Insp)</span>
+        </button>
+      </div>
+
+      <form id="claimForm" onsubmit="handleScore(event)">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="partner_id">Service Partner ID</label>
+            <input type="text" id="partner_id" required placeholder="e.g. SP3160">
+          </div>
+
+          <div class="form-group">
+            <label for="sku">Product SKU</label>
+            <input type="text" id="sku" required placeholder="e.g. KH-AF-03">
+          </div>
+
+          <div class="form-group">
+            <label for="claim_amount_inr">Claim Amount (INR)</label>
+            <input type="number" id="claim_amount_inr" required step="1" placeholder="e.g. 1450">
+          </div>
+
+          <div class="form-group">
+            <label for="days_since_purchase">Days Since Purchase</label>
+            <input type="number" id="days_since_purchase" required placeholder="e.g. 120">
+          </div>
+
+          <div class="form-group">
+            <label for="partner_inspected">Partner Inspected?</label>
+            <select id="partner_inspected" required>
+              <option value="N">N — Uninspected (Auto-approve route)</option>
+              <option value="Y">Y — Signed off by partner inspection</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="photo_attached">Photo Attached?</label>
+            <select id="photo_attached" required>
+              <option value="Y">Y — Photo Evidence Attached</option>
+              <option value="N">N — No Photo Attached</option>
+            </select>
+          </div>
+
+          <div class="form-group full">
+            <label for="customer_prior_claims">Customer Prior Claims</label>
+            <input type="number" id="customer_prior_claims" value="1" min="0">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btnScore">
+          Score Claim & Generate Reasons
+        </button>
+      </form>
+    </div>
+
+    <div class="card" id="resultCard">
+      <div class="card-title">Investigation Recommendation</div>
+      <div class="card-subtitle">Plain-English reasoning calibrated to operational policy.</div>
+
+      <div id="resultContent" class="result-placeholder">
+        <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        <p>Submit claim details on the left or select a preset demo claim to inspect model output.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Kestrel Home D2C Operations &bull; Pune HQ &bull; Warranty Risk Decision Engine
+  </footer>
+
+  <script>
+    function loadDemo1() {
+      document.getElementById('partner_id').value = 'SP3160';
+      document.getElementById('sku').value = 'KH-AF-03';
+      document.getElementById('claim_amount_inr').value = 1450;
+      document.getElementById('days_since_purchase').value = 120;
+      document.getElementById('partner_inspected').value = 'N';
+      document.getElementById('photo_attached').value = 'Y';
+      document.getElementById('customer_prior_claims').value = 1;
+      document.getElementById('claimForm').requestSubmit();
+    }
+
+    function loadDemo2() {
+      document.getElementById('partner_id').value = 'SP3033';
+      document.getElementById('sku').value = 'KH-WP-01';
+      document.getElementById('claim_amount_inr').value = 6500;
+      document.getElementById('days_since_purchase').value = 120;
+      document.getElementById('partner_inspected').value = 'Y';
+      document.getElementById('photo_attached').value = 'Y';
+      document.getElementById('customer_prior_claims').value = 0;
+      document.getElementById('claimForm').requestSubmit();
+    }
+
+    async function handleScore(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnScore');
+      btn.innerText = 'Scoring...';
+      btn.disabled = true;
+
+      const payload = {
+        partner_id: document.getElementById('partner_id').value.trim(),
+        sku: document.getElementById('sku').value.trim(),
+        claim_amount_inr: parseFloat(document.getElementById('claim_amount_inr').value),
+        days_since_purchase: parseInt(document.getElementById('days_since_purchase').value),
+        partner_inspected: document.getElementById('partner_inspected').value,
+        photo_attached: document.getElementById('photo_attached').value,
+        customer_prior_claims: parseInt(document.getElementById('customer_prior_claims').value || 0)
+      };
+
+      try {
+        const res = await fetch('/api/score', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          alert('Error: ' + (err.error || 'Server returned ' + res.status));
+          return;
+        }
+
+        const data = await res.json();
+        renderResult(data);
+      } catch (err) {
+        alert('Could not contact server: ' + err.message);
+      } finally {
+        btn.innerText = 'Score Claim & Generate Reasons';
+        btn.disabled = false;
+      }
+    }
+
+    function renderResult(data) {
+      const container = document.getElementById('resultContent');
+      container.className = '';
+
+      let raisingHtml = '';
+      if (data.reasons_raising_risk && data.reasons_raising_risk.length > 0) {
+        raisingHtml = `
+          <div style="font-size:0.75rem; font-weight:700; color:#F87171; text-transform:uppercase; margin-top:0.85rem;">
+            Factors Raising Risk
+          </div>
+          <div class="reasons-list">
+            ${data.reasons_raising_risk.map(r => `
+              <div class="reason-item raising">
+                <span>&#9888;</span>
+                <div>${r}</div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      let loweringHtml = '';
+      if (data.reasons_lowering_risk && data.reasons_lowering_risk.length > 0) {
+        loweringHtml = `
+          <div style="font-size:0.75rem; font-weight:700; color:#34D399; text-transform:uppercase; margin-top:0.85rem;">
+            Factors Lowering Risk
+          </div>
+          <div class="reasons-list">
+            ${data.reasons_lowering_risk.map(r => `
+              <div class="reason-item lowering">
+                <span>&#10003;</span>
+                <div>${r}</div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      container.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span class="badge-band ${data.band}">${data.band}</span>
+          <span style="font-size:0.75rem; color:var(--text-muted);">Threshold: &ge;0.150 for Review</span>
+        </div>
+
+        <div class="score-display">
+          <div class="score-number">${data.score.toFixed(4)}</div>
+          <div class="score-meta">
+            Risk Rank Score<br>(Top 5% of monthly volume)
+          </div>
+        </div>
+
+        <div class="action-box">
+          <div class="action-label">Recommended Action</div>
+          <div class="action-text">${data.action}</div>
+        </div>
+
+        ${raisingHtml}
+        ${loweringHtml}
+
+        <div class="benchmark-bar">
+          <span>Desk Capacity: 40 claims / month</span>
+          <span>Net Return: ~Rs 130–220 / check</span>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>

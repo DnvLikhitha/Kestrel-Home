@@ -1,0 +1,30 @@
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache & bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.pytest_cache/
+
+# Confidential Kestrel data & client communications (Ops Policy s10: never commit or push)
+README.txt
+email-thread.txt
+ops-policy.pdf
+train.csv
+test_unlabelled.csv
+partners.csv
+products.csv
+sample_submission.csv
+data/
+*.csv
+!predictions.csv
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,9 @@
+{
+  "SP3160": {"name": "SP3160 (Pune)", "fraud_cases": 10, "type": "Authorised Service Centre"},
+  "SP3232": {"name": "SP3232 (Jaipur)", "fraud_cases": 7, "type": "Authorised Service Centre"},
+  "SP3318": {"name": "SP3318 (Hubballi)", "fraud_cases": 6, "type": "Franchise"},
+  "SP3129": {"name": "SP3129 (Chennai)", "fraud_cases": 4, "type": "Authorised Service Centre"},
+  "SP3319": {"name": "SP3319 (Warangal)", "fraud_cases": 3, "type": "Franchise"},
+  "SP3118": {"name": "SP3118 (Pune)", "fraud_cases": 2, "type": "Authorised Service Centre"},
+  "SP3286": {"name": "SP3286 (Mysuru)", "fraud_cases": 2, "type": "Authorised Service Centre"}
+}

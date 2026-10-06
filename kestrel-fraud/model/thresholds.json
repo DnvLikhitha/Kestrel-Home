@@ -1,0 +1,6 @@
+{
+  "review_threshold": 0.150,
+  "watch_threshold": 0.040,
+  "top_percentile_review": 0.05,
+  "target_monthly_desk_capacity": 40
+}
