@@ -80,7 +80,7 @@ In out-of-time backtesting on June 2026 claims, the model intercepted **12 of th
 
 ### 9. Your Public Google Drive Link
 *(Upload video and deliverables to your Google Drive and paste share link here if submitting via web form)*:  
-`[GOOGLE_DRIVE_LINK]`
+(https://drive.google.com/file/d/124CBB0YqeEzL4CEnvTNkuSKc3EdkGdfW/view?usp=sharing)
 
 ---
 
